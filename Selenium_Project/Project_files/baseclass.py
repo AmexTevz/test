@@ -1,31 +1,47 @@
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.by import By
-from options import Driver
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
 
-web_driver = Driver()
+
 
 class Base:
 
+    chrome_options = webdriver.ChromeOptions()
+    # chrome_options.add_argument('headless')
+    chrome_options.add_argument('--disable-gpu')
+
+    chrome_path = Service('/Users/amirantevzadze/Documents/development/chromedriver')
+
+    driver = webdriver.Chrome(service=chrome_path, options=chrome_options)
+    driver.implicitly_wait(20)
+    driver.get('https://www.ebay.com/')
+
+    def item_search(self, text):
+        self.driver.find_element(By.XPATH, '//*[@id="gh-ac"]').send_keys(text)
+        self.driver.find_element(By.ID, 'gh-btn').click()
+
+    def buy_it_now(self):
+        self.driver.find_element(By.CSS_SELECTOR, "a[href*='BIN=1']").click()
 
     def close_window(self):
-        return web_driver.driver.close()
+        return self.driver.close()
 
     def VerifylinkPresence(self, locator, text=str):
-        WebDriverWait(web_driver.driver, 15).until(expected_conditions.presence_of_all_elements_located((locator, text)))
-
+        WebDriverWait(self.driver, 15).until(expected_conditions.presence_of_all_elements_located((locator, text)))
 
     def switch_window(self, num):
-        all_windows = web_driver.driver.window_handles
-        switch = web_driver.driver.switch_to.window(all_windows[num])
+        all_windows = self.driver.window_handles
+        switch = self.driver.switch_to.window(all_windows[num])
         return switch
 
     def switch_to_google_forms(self):
-        sww = web_driver.driver.get('https://docs.google.com/forms/d/e/1FAIpQLSfmSm8WTGkHgh7MvfO6wy3SwsNNWpJ5ubQ51nh8ESO8qD5jcg/viewform?usp=sf_link')
+        sww = self.driver.get('https://docs.google.com/forms/d/e/1FAIpQLSfmSm8WTGkHgh7MvfO6wy3SwsNNWpJ5ubQ51nh8ESO8qD5jcg/viewform?usp=sf_link')
         return sww
 
     def open_new_tab(self):
-        return web_driver.driver.execute_script("window.open('');")
+        return self.driver.execute_script("window.open('');")
 
     def clearSearch(self):
-        web_driver.driver.find_element(By.XPATH, '//*[@id="gh-ac"]').clear()
+        self.driver.find_element(By.XPATH, '//*[@id="gh-ac"]').clear()
