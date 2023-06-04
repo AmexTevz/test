@@ -17,7 +17,7 @@ if filename != '':  # Will skip the csv creation if left blank.
         writer = csv.writer(file)
         writer.writerow(['Id', 'Name', 'Price', 'Link'])
         for name, price, link in zip(result.titles(), result.prices(), result.links()):
-            if 'to' not in result.prices():
+            if 'to' not in price:
                 row_result = [num, name, price, link]
                 writer.writerow(row_result)
                 num += 1
