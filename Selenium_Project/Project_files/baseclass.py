@@ -1,0 +1,39 @@
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.support import expected_conditions
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.common.by import By
+
+
+
+class Base:
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.add_argument('headless')
+    chrome_options.add_argument('--disable-gpu')
+
+    chrome_path = Service('/Users/amirantevzadze/Documents/development/chromedriver')
+
+    driver = webdriver.Chrome(service=chrome_path, options=chrome_options)
+    driver.implicitly_wait(20)
+
+    def close_window(self):
+        return self.driver.close()
+
+    def VerifylinkPresence(self, locator, text=str):
+        WebDriverWait(self.driver, 15).until(expected_conditions.presence_of_all_elements_located((locator, text)))
+
+
+    def switch_window(self, num):
+        all_windows = self.driver.window_handles
+        switch = self.driver.switch_to.window(all_windows[num])
+        return switch
+
+    def switch_to_google_forms(self):
+        sww = self.driver.get('https://docs.google.com/forms/d/e/1FAIpQLSfmSm8WTGkHgh7MvfO6wy3SwsNNWpJ5ubQ51nh8ESO8qD5jcg/viewform?usp=sf_link')
+        return sww
+
+    def open_new_tab(self):
+        return self.driver.execute_script("window.open('');")
+
+    def clearSearch(self):
+        self.driver.find_element(By.XPATH, '//*[@id="gh-ac"]').clear()
