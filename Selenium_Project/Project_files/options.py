@@ -26,4 +26,3 @@ class Results:
         link = [i.get_attribute('href') for i in self.driver.find_elements(*Results.product_link)]
         return link[1:self.number_of_entries]
 
-

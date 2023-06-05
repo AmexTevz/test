@@ -7,7 +7,7 @@ from selenium.webdriver.chrome.service import Service
 
 class Base:
     chrome_options = webdriver.ChromeOptions()
-    chrome_options.add_argument('headless')
+    # chrome_options.add_argument('headless')
     chrome_options.add_argument('--disable-gpu')
 
     chrome_path = Service('/Users/amirantevzadze/Documents/development/chromedriver')
@@ -25,6 +25,9 @@ class Base:
 
     def close_window(self):
         return self.driver.close()
+
+    def next_page(self):
+        return self.driver.find_element(By.CLASS_NAME, 'pagination__next').click()
 
     def verifylink(self, locator, text=str):
         WebDriverWait(self.driver, 15).until(expected_conditions.presence_of_all_elements_located((locator, text)))
