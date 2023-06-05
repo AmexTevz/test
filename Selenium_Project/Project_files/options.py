@@ -16,13 +16,13 @@ class Results:
 
     def titles(self):
         titles = [i.text for i in self.driver.find_elements(*Results.product_titles)]
-        return titles[1:self.number_of_entries]
+        return titles[1:self.number_of_entries+1]
 
     def prices(self):
         prices = [i.text for i in self.driver.find_elements(*Results.product_price)]
-        return prices[1:self.number_of_entries]
+        return prices[1:self.number_of_entries+1]
 
     def links(self):
         link = [i.get_attribute('href') for i in self.driver.find_elements(*Results.product_link)]
-        return link[1:self.number_of_entries]
+        return link[1:self.number_of_entries+1]
 
