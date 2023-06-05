@@ -29,7 +29,6 @@ if filename != '':  # Will skip the csv creation if left blank.
     with open(csv_file_path, 'w') as file:
         writer = csv.writer(file)
         writer.writerow(['Id', 'Name', 'Price', 'Link'])
-        # for name, price, link in zip(result.titles(), result.prices(), result.links()):
         for i in combined_info:
             listed = list(i)
             row_result = [num, listed[0],listed[1],listed[2]]
